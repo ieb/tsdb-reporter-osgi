@@ -34,9 +34,9 @@ convert and ingest the classes in this bundle will be required. The files format
 
 Integration with Dropwizard Metrics is achieved via a DropWizard Metrics reporter.
 
-# Foramt detail
+# Format detail
 
-For full current detaisl of the format see TFDBFile. THis is a summary
+For full current details of the format see TFDBFile. This is a summary
 
     Version Marker
     Header
@@ -61,7 +61,7 @@ For full current detaisl of the format see TFDBFile. THis is a summary
 # Why not RRD
 
 RRDTool is format supported by native libraries and tools. There is a Java RRD library, but the format it writes is 
-not compatable with RRDTool so the files cant be read.  That format and that library do not have universal adoption.
+not compatible with RRDTool so the files cant be read.  That format and that library do not have universal adoption.
 There are several interface libraries, all of which require the native commands to be executed. For that reason, and to 
 manage the risks of a changing format, a custom format was chosen. If a stable and widely accepted alternative format is 
-avalable that fits the needs of this bundle is availablem then the custom format should be deprecated. 
+available that fits the needs of this bundle is available then the custom format should be deprecated. 
