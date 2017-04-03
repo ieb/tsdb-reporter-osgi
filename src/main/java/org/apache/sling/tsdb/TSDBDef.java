@@ -43,6 +43,23 @@ public class TSDBDef {
         return new Builder();
     }
 
+    public static String getType(Object o) {
+        if ( o instanceof Double || o instanceof Float) {
+            return String.valueOf(DOUBLE);
+        } else if ( o instanceof Long || o instanceof Integer) {
+            return String.valueOf(LONG);
+        }
+        return null;
+    }
+
+    public static Object getValue(Object v) {
+        if ( v instanceof Double || v instanceof Float) {
+            return (double) v;
+        } else if ( v instanceof Long || v instanceof Integer) {
+            return (long) v;
+        }
+        throw new IllegalArgumentException("Cant save metric of type "+v.getClass());
+    }
 
     private int nblocks;
     private final long[] recordPeriod;
@@ -156,6 +173,7 @@ public class TSDBDef {
     public String getMetadata() {
         return metadata;
     }
+
 
 
     public static class Builder {

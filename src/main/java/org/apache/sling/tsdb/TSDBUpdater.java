@@ -161,14 +161,14 @@ public class TSDBUpdater implements AutoCloseable {
      * @param data a data record.
      */
     private void updateLive(@Nonnull  Object[] data) {
-        liveData = merge(liveData, data, 2);
+        liveData = merge(liveData, data, 0);
     }
 
     /**
      * Merge data into an accumulator (acc) expecting nmerges to happen.
      * @param acc an record to accuminate into, may be null in which case it will be initialised to the default record.
      * @param data the data record
-     * @param nmerges the number of contributing records, for means.
+     * @param nmerges the number of contributing records, for means, if 0 acc = (acc+data)/2, if > 0, acc = acc + data/nmerges;
      * @return the merged record.
      */
     @Nonnull
@@ -180,9 +180,24 @@ public class TSDBUpdater implements AutoCloseable {
             for (int i = 0; i < def.getNFields(); i++) {
                 switch(def.getFieldMergeOperation(i)) {
                     case TSDBDef.MEAN: // mean
-                        switch(def.getFieldType(i)) {
-                            case TSDBDef.DOUBLE: acc[i] = (((double)acc[i])+((double)data[i]))/((double)nmerges); break;
-                            case TSDBDef.LONG: acc[i] = (((long)acc[i])+((long)data[i]))/((long)nmerges); break;
+                        if ( nmerges == 0) {
+                            switch (def.getFieldType(i)) {
+                                case TSDBDef.DOUBLE:
+                                    acc[i] = (((double) acc[i]) + ((double) data[i])) / (2.0D);
+                                    break;
+                                case TSDBDef.LONG:
+                                    acc[i] = (((long) acc[i]) + ((long) data[i])) / (2L);
+                                    break;
+                            }
+                        } else {
+                            switch (def.getFieldType(i)) {
+                                case TSDBDef.DOUBLE:
+                                    acc[i] = ((double) acc[i]) + (((double) data[i])) / ((double) nmerges);
+                                    break;
+                                case TSDBDef.LONG:
+                                    acc[i] = ((long) acc[i]) + (((long) data[i])) / ((long) nmerges);
+                                    break;
+                            }
                         }
                         break;
                     case TSDBDef.SUM: // sum

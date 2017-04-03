@@ -6,7 +6,7 @@ may later be retrieved for reporting.
 
 # Quick Setup for the impatient
 
-Install the bundle. Thats it.
+Install the bundle. That's it.
 
 
 # What it does
